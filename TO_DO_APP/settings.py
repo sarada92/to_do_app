@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-2^1g8y+@p-4f9gls5#50u2xac+ibp&k^v)f%ak32+a9uyqcgo)
 if (len(sys.argv) >= 2 and sys.argv[1] == 'runserver'):
     DEBUG = True
 else:
-    DEBUG = False
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
