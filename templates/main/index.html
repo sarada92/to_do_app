@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="quote">
+        <blockquote class="blockquote text-center">
+            <p class="mb-0">{{ daily_quote.quote }}</p>
+            <footer class="blockquote-footer"><cite title="Source Title">{{ daily_quote.author }}</cite></footer>
+        </blockquote>
+    </div>   
+
+    <div class="row mt-4">
+	    <div class="col">
+            <h2>Add Item</h2>
+            <form class="form-inline" action='add_todo' method='POST'>
+            {% csrf_token %}
+                <input type="text" required name="content" class="form-control mb-2 mr-sm-2" placeholder="type here...">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class="col mt-4">
+            <ul class="list-group">
+                {% for item in items %}
+                    <li class="list-group-item">{{ item.text }}
+                        <div class="float-right">
+                            <form action="delete_todo/{{item.id}}/" method="post">
+                            {% csrf_token %} 
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                        <div class="float-right mr-3">
+                            <form action="modify_todo/{{item.id}}/" method="post">
+                            {% csrf_token %} 
+                                <button type="submit" class="btn btn-sm btn-secondary">Modify</button>
+                            </form> 
+                        </div>                                                   
+                     </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock content %}

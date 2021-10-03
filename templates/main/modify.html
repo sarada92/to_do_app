@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row mt-4 mb-4">
+    <p>Current Item: <b>{{ content.text }}</b></P>
+</div>
+
+<div class='row'>
+    
+    <form style="width:100%;" class='form-inline' action="/modify_action/{{content.id}}/" method='POST'>
+        {% csrf_token %}
+        <input type="text" name="new_content" class="form-control mb-2 mr-sm-2" placeholder="Change Item Name..." >
+        <button type="submit" name='action' value='modify' class="btn btn-secondary mb-2 mr-2">Modify</button>
+        <button type="submit" name='action' value='cancel' class="btn btn-primary mb-2">Cancel</button>
+    </form>
+</div>
+
+{% endblock %}
