@@ -35,6 +35,9 @@
         margin: 3em auto 3em auto;
         border-radius: 1em;
       }
+      a:hover {
+        color: yellow;
+      }
     </style>
 
     <title>To-Do-App</title>
@@ -42,8 +45,13 @@
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">To Do App</a>
+      <a class="navbar-brand text-md-start" style="color:#add8e6;">{{ user.username | title }}</a>
+
+      <a class="navbar-brand text-end" href="/accounts/logout" style="color:#add8e6;">Logout</a>
     </nav>
+
     <div class="container">{% block content %}{% endblock content %}</div>
+
     
   </body>
 </html>
