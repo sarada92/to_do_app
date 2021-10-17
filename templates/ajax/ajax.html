@@ -1,0 +1,114 @@
+<script>
+    $(document).ready(function(){
+
+        let csrf_tkn = $("input[name='csrfmiddlewaretoken']").val()
+        
+        $("#todo-form")[0].reset()
+        $("#todo-form").on('submit', itemAddHandler)
+        $(".list-group").on('click', '#todo-delete', itemDeleteHandler)
+        $(".list-group").on('click', '#todo-modify', itemModifyHandler)
+        $("#todo-cancel").on('click', function(){
+            $("#todo-add").show()
+            $("#todo-edit-save").hide()
+        })
+
+        function itemAddHandler(){
+            item = $("#todo-item").val()
+            id = $("#item-id").val()
+            html_output = ''
+
+            item_data = {item: item, item_id: id, csrfmiddlewaretoken: csrf_tkn}
+            $.ajax({
+                url: '{% url "add_todo" %}',
+                method: 'POST',
+                data: item_data,
+                success: function(response){
+                    items = response.items
+                    if(response.status == 1){
+                        for(i=0; i < items.length; i++){
+                            html_output += "<li class='list-group-item'>" + items[i].text 
+                                            + "<div class='float-right'><input type='button' class='btn btn-sm btn-warning mr-1 mb-1' id='todo-modify' value='Modify' item-id='" + items[i].id + "' />"
+                                            + " <input type='button' class='btn btn-sm btn-danger mr-1 mb-1' id='todo-delete' value='Delete' item-id='" + items[i].id + "' /></div></li>"
+                        }
+
+                        $(".list-group").html(html_output)
+                        $("#item-id").val("")
+                        $("#todo-form")[0].reset()
+
+                        $("#todo-add").show()
+                        $("#todo-edit-save").hide()
+
+                    }else{
+                        $("#item-id").val("")
+                        $("#todo-form")[0].reset()
+
+                        $("#todo-add").show()
+                        $("#todo-edit-save").hide()
+                    }
+                }
+            })
+            return false;
+        }
+
+
+        function itemDeleteHandler(){
+            currentThis = this
+            item_id = $(currentThis).attr('item-id')
+            item_data = {item_id: item_id, csrfmiddlewaretoken: csrf_tkn}
+            $.ajax({
+                url: '{% url "delete_todo" %}',
+                method: 'POST',
+                data: item_data,
+                success: function(response){
+                    if(response.status == 1){
+                        $(currentThis).closest('li').fadeOut()
+                    }
+                }
+            })
+        }
+
+        function itemModifyHandler(){
+            currentThis = this
+            item_id = $(currentThis).attr('item-id')
+            item_data = {item_id: item_id, csrfmiddlewaretoken: csrf_tkn}
+            $.ajax({
+                url: "{% url 'modify_todo' %}",
+                method: 'POST',
+                data: item_data,
+                success: function(response){
+                    if (response.status == 1){
+                        item = response.item
+                        text = item['text']
+                        id = item['id']
+
+                        $("#item-id").val(id)
+                        $("#todo-item").val(text)
+
+                        $("#todo-edit-save").show()
+                        $("#todo-add").hide()
+                    }else{
+                        $("#todo-edit-save").show()
+                        $("#todo-add").hide()
+                        $("#todo-form")[0].reset()
+                    }
+                }
+            })
+        }
+
+        function update_quote(){  
+            $.ajax({
+                url: "{% url 'random_quote' %}", 
+                method: 'GET',
+                success: function(response) {
+                    quote = response.quote['quote']
+                    author = response.quote['author']
+                    $(".msg").text(quote)
+                    $(".source-title").text(author)
+                    console.log("Ajax is call quote...." + response)
+                },
+            }).then(function() {           // on completion, restart
+                setTimeout(update_quote, 900000);  // function refers to itself
+            });
+        }
+    })
+</script>

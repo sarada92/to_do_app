@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="quote">
+        <blockquote class="blockquote text-center">
+            <p class="mb-0 msg">{{ daily_quote.quote }}</p>
+            <footer class="blockquote-footer"><cite class="source-title" title="Source Title">{{ daily_quote.author }}</cite></footer>
+        </blockquote>
+    </div>   
+
+    <div class="row mt-4">
+	    <div class="col-sm-7">
+            <h2>Add Item</h2>
+            <form class="form-inline" action="javascript:alert( 'Success!' )" method='POST' id='todo-form'>
+                {% csrf_token %}
+                <input type="hidden" name="item-id" id="item-id">
+                {{form}}
+                <button type="submit" class="btn btn-success mb-2 mr-1" id='todo-add'>Add</button>
+                <button type="submit" class="btn btn-success mb-2 mr-1" style="display: none" id='todo-edit-save'>Edit&Save</button>
+                <button type="reset" class="btn btn-secondary mb-2 mr-1" id='todo-cancel'>Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class="col mt-4">
+            <ul class="list-group">
+                {% for item in items %}
+                    <li class="list-group-item">{{ item.text }}
+                        <div class='float-right'>
+                                <input type="button" class="btn btn-sm btn-warning mr-1 mb-1" id="todo-modify" value='Modify' item-id="{{ item.id }}" />
+                                <input type="button" class="btn btn-sm btn-danger mr-1 mb-1" id="todo-delete" value='Delete' item-id="{{ item.id }}" />
+                        </div>
+                     </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock content %}
