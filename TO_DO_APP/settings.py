@@ -134,6 +134,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+ACCOUNT_LOGOUT_ON_GET = True 
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
