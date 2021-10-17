@@ -1,6 +1,0 @@
-.log*
-db.*
-/staticfiles
-/TO_DO_APP/__pycache__
-/todo/__pycache__
-/toto/migrations

@@ -1,1 +1,0 @@
-web: gunicorn TO_DO_APP.wsgi
