@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
-from todo.models import TodoApp, TodoUsers
+from todo.models import TodoUsers
 from .forms import *
-import requests
-from bs4 import BeautifulSoup
 from .utilities import *
 
 # Create your views here.
