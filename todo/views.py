@@ -69,3 +69,5 @@ def modify_todo(request):
 def random_quote(request):
     daily_quote = randomQuoteGenerator()
     return JsonResponse({'quote': daily_quote})
+
+    
